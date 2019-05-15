@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/templatePrincipal.xhtml">
+	<ui:define name="conteudo">
+
+		<f:view contentType="text/html">
+			<h:body>
+				<p:messages id="msg" showDetail="true" closable="true" />
+				<p:panelGrid id="painel" style="width: 70%">
+					<p:row>
+						<p:column style="width: 50%">
+							Perguntas					
+						</p:column>
+						<p:column>
+							<p:outputLabel value="Usuario:" />
+							<p:selectOneMenu id="usuario" label="Usuario" required="true"
+								value="#{PerguntaBean.pergunta.usuario.cpf}">
+								<f:selectItems id="usuarioId" 
+									value="#{PerguntaBean.listaUsuarios}" var="usuario"
+									itemLabel="#{usuario.nome}" itemValue="#{usuario.cpf}" />
+							</p:selectOneMenu>
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column colspan="2">
+							<p:inputTextarea id="pergunta" label="Descrição" rows="5" required="true"
+								cols="100" value="#{PerguntaBean.pergunta.descricao}" />
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column>
+							<p:outputLabel value="Data:" />
+							<p:calendar id="data" label="data" showOn="button"
+								disabled="true" pattern="dd/MM/yyyy"
+								value="#{PerguntaBean.pergunta.dataCriacao}" />
+
+						</p:column>
+						<p:column>
+							<p:outputLabel value="Ativo:" />
+							<p:selectOneMenu id="ativo" label="" style="width:125px"
+								value="#{PerguntaBean.pergunta.ativo}">
+								<f:selectItem itemLabel="Ativo" itemValue="S" />
+								<f:selectItem itemLabel="Inativo" itemValue="N" />
+							</p:selectOneMenu>
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column colspan="2">
+							<p:commandButton value="Salvar" id="salvar" ajax="true"
+								update="msg"  actionListener="#{PerguntaBean.salvar}">
+							</p:commandButton>
+
+							<p:commandButton value="Limpar" id="limpar" immediate="true"
+								update="@form" actionListener="#{PerguntaBean.limpar}">
+								<f:ajax render="@form" resetValues="true" />
+							</p:commandButton>
+							
+							<p:commandButton value="Reset Code" update="painel" process="@this" 
+								action="#{PerguntaBean.limpar}"  />
+
+						</p:column>
+					</p:row>
+				</p:panelGrid>
+
+			</h:body>
+		</f:view>
+	</ui:define>
+</ui:composition>
+</html>
+
+
